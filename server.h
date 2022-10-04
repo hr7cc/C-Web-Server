@@ -2,9 +2,12 @@
 #ifndef server_h
 #define server_h
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <sys/types.h>
+#include <unistd.h>
 
 struct Server {
     int domain;
