@@ -1,39 +1,38 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "server.h"
+#include <sys/socket.h>
 
 
-struct Server server_constructor(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(void))
+
+int main()
 {
-    struct Server server;
-    server.domain = domain;
-    server.service = service;
-    server.protocol= protocol;
-    server.interface = interface;
-    server.port = port;
-    server.backlog = backlog;
+    char server_message[256] = "You have reacher the server.";
 
-    server.address.sin_family = domain;
-    server.address.sin_port = htons(port);
-    server.address.sin_addr.s_addr = htonl(interface);
+    // create socket
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
-    server.sckt = socket(domain, service, protocol);
+    // specify server address
+    struct sockaddr_in server_address;
+    server_address.sin_family = AF_INET;
+    server_address.sin_port = htons(9002);
+    server_address.sin_addr.s_addr = INADDR_ANY;
 
-    if (server.sckt == 0)
-    {
-        perror("Failed to connect to socket\n");
-        exit(1);
-    }
-
-    bind(server.sckt, (struct sockaddr *)&server.address, sizeof(server.address));
+    // bind server
+    bind(server_socket, (struct sockaddr*) &server_address, sizeof(server_address));
 
 
+    // listen
+    listen(server_socket, 9);
+
+    int client_socket = accept(server_socket, NULL, NULL);
+
+    // send message
+    send(client_socket, server_message, sizeof(server_message), 0);
+
+    // close socket
+    close(server_socket);
 
 
-    return server;
-
-}
-
-int main(void){
     return 0;
+
+
 }

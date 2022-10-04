@@ -5,7 +5,7 @@ int main()
     // create socket
     int tcp_socket = socket(AF_INET, SOCK_STREAM, 0);
 
-    // specify address for socket
+    // specify socket address
     struct sockaddr_in server_address;
     server_address.sin_family = AF_INET;
     server_address.sin_port = htons(9002);
