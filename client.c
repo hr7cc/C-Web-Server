@@ -2,6 +2,8 @@
 
 int main()
 {
+    char* message = "Message from client\n";
+
     // create socket
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -23,7 +25,11 @@ int main()
     char server_response[256];
     recv(client_socket, &server_response, sizeof(server_response), 0);
 
-    printf("Data received: %s\n", server_response);
+    // print data from server
+    printf("\n%s\n", server_response);
+
+    // send data to server
+    send(client_socket, message, strlen(message), 0);
 
     // close socket
     close(client_socket);

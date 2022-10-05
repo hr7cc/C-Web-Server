@@ -54,6 +54,14 @@ int main()
     // send message to client
     send(client_socket, server_message, sizeof(server_message), 0);
 
+    // recieve message from client
+    char server_response[256];
+    recv(client_socket, &server_response, sizeof(server_response), 0);
+
+    // print message from client
+    printf("\n%s\n", server_response);
+
+
     // closing the connected socket
     close(client_socket);
 
