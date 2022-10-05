@@ -8,14 +8,15 @@ int main()
     // specify socket address
     struct sockaddr_in server_address;
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(9002);
+    server_address.sin_port = htons(PORT);
     server_address.sin_addr.s_addr = INADDR_ANY;
 
     // check connection status
     int connect_status = connect(client_socket, (struct sockaddr *) &server_address, sizeof(server_address));
     if (connect_status == -1)
     {
-        printf("Error making connection\n");
+        perror("Error making connection");
+        exit(EXIT_FAILURE);
     }
 
     // receive data from server
