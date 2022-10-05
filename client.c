@@ -22,7 +22,7 @@ int main()
     }
 
     // receive data from server
-    char server_response[256];
+    char server_response[1024];
     recv(client_socket, &server_response, sizeof(server_response), 0);
 
     // print data from server
