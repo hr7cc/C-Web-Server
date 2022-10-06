@@ -1,34 +1,66 @@
-#include "server.h"
+#include "defs.h"
 #include <asm-generic/socket.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
-void parse_http(char* request)
-{
+#define MAXCHAR 9000
 
-    /* Find out where everything is */
-    const char *start_of_path = strchr(request, ' ') + 1;
-    const char *start_of_query = strchr(start_of_path, '?');
-    const char *end_of_query = strchr(start_of_query, ' ');
+/* void parse_http() */
+/* { */
+/*     char ch; */
+/*     char str[MAXCHAR]; */
+/*     FILE* ptr = fopen("index.html", "r"); */
+/*     do { */
+/*         ch = fgetc(ptr); */
+/*         /\* printf("%c", ch); *\/ */
+/*         strncat(str, ch, 1); */
+/*         printf("%s", str); */
 
-    /* Get the right amount of memory */
-    char path[start_of_query - start_of_path];
-    char query[end_of_query - start_of_query];
+/*         // Checking if character is not EOF. */
+/*         // If it is EOF stop eading. */
+/*     } while (ch != EOF); */
 
-    /* Copy the strings into our memory */
-    strncpy(path, start_of_path,  start_of_query - start_of_path);
-    strncpy(query, start_of_query, end_of_query - start_of_query);
 
-    /* Null terminators (because strncpy does not provide them) */
-    path[sizeof(path)] = 0;
-    query[sizeof(query)] = 0;
 
-    /*Print */
-    printf("%s\n", query);
-    printf("%s\n", path);
 
-};
+/*     /\* if (NULL == ptr) { *\/ */
+/*     /\*     printf("file can't be opened \n"); *\/ */
+/*     /\* } *\/ */
+/*     /\* fgets(str, MAXCHAR, ptr); *\/ */
+/*     /\* printf("%s", str); *\/ */
+/*     /\* printf("hola"); *\/ */
+/*     fclose(ptr); */
+
+/*     /\* /\\* Find out where everything is *\\/ *\/ */
+/*     /\* const char *start_of_path = strchr(request, ' ') + 1; *\/ */
+/*     /\* const char *start_of_query = strchr(start_of_path, '?'); *\/ */
+/*     /\* const char *end_of_query = strchr(start_of_query, ' '); *\/ */
+
+/*     /\* /\\* Get the right amount of memory *\\/ *\/ */
+/*     /\* char path[start_of_query - start_of_path]; *\/ */
+/*     /\* char query[end_of_query - start_of_query]; *\/ */
+
+/*     /\* /\\* Copy the strings into our memory *\\/ *\/ */
+/*     /\* strncpy(path, start_of_path,  start_of_query - start_of_path); *\/ */
+/*     /\* strncpy(query, start_of_query, end_of_query - start_of_query); *\/ */
+
+/*     /\* /\\* Null terminators (because strncpy does not provide them) *\\/ *\/ */
+/*     /\* path[sizeof(path)] = 0; *\/ */
+/*     /\* query[sizeof(query)] = 0; *\/ */
+
+/*     /\* /\\*Print *\\/ *\/ */
+/*     /\* printf("%s\n", query); *\/ */
+/*     /\* printf("%s\n", path); *\/ */
+
+/* }; */
+
+/* char* readhtml(&ptr) */
+/* { */
+
+/* } */
 
 int main()
 {
@@ -36,9 +68,9 @@ int main()
     /* char server_message[1024] = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!"; */
     /* char server_message[1024] = "GET /index.html HTTP/1.1\nHost: 127.0.0.1:9001\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*\/\*;q=0.8\nAccept-Language: en-GB,en;q=0.5\nAccept\n"; */
 
-    /* parse_http(server_message); */
 
 
+    /* parse_http(); */
 
 
 
@@ -99,8 +131,16 @@ int main()
         char server_response[1024];
         recv(client_socket, &server_response, sizeof(server_response), 0);
 
+
         // print message from client
         printf("\n%s\n", server_response);
+
+
+
+
+
+
+
 
 
         // closing the connected socket
