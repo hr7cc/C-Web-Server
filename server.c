@@ -8,59 +8,70 @@
 
 #define MAXCHAR 9000
 
-/* void parse_http() */
-/* { */
-/*     char ch; */
-/*     char str[MAXCHAR]; */
-/*     FILE* ptr = fopen("index.html", "r"); */
-/*     do { */
-/*         ch = fgetc(ptr); */
-/*         /\* printf("%c", ch); *\/ */
-/*         strncat(str, ch, 1); */
-/*         printf("%s", str); */
+void parse_http()
+{
+    char str[MAXCHAR];
+    FILE* ptr = fopen("index.html", "r");
+    char ch[1];
 
-/*         // Checking if character is not EOF. */
-/*         // If it is EOF stop eading. */
-/*     } while (ch != EOF); */
+    do {
+        ch[0] = fgetc(ptr);
+        strncat(str, ch, 1);
+    } while (ch[0] != EOF);
+
+    printf("%s", str);
 
 
 
 
-/*     /\* if (NULL == ptr) { *\/ */
-/*     /\*     printf("file can't be opened \n"); *\/ */
-/*     /\* } *\/ */
-/*     /\* fgets(str, MAXCHAR, ptr); *\/ */
-/*     /\* printf("%s", str); *\/ */
-/*     /\* printf("hola"); *\/ */
-/*     fclose(ptr); */
+    /* if (NULL == ptr) { */
+    /*     printf("file can't be opened \n"); */
+    /* } */
+    /* fgets(str, MAXCHAR, ptr); */
+    /* printf("%s", str); */
+    /* printf("hola"); */
+    fclose(ptr);
 
-/*     /\* /\\* Find out where everything is *\\/ *\/ */
-/*     /\* const char *start_of_path = strchr(request, ' ') + 1; *\/ */
-/*     /\* const char *start_of_query = strchr(start_of_path, '?'); *\/ */
-/*     /\* const char *end_of_query = strchr(start_of_query, ' '); *\/ */
+    /* /\* Find out where everything is *\/ */
+    /* const char *start_of_path = strchr(request, ' ') + 1; */
+    /* const char *start_of_query = strchr(start_of_path, '?'); */
+    /* const char *end_of_query = strchr(start_of_query, ' '); */
 
-/*     /\* /\\* Get the right amount of memory *\\/ *\/ */
-/*     /\* char path[start_of_query - start_of_path]; *\/ */
-/*     /\* char query[end_of_query - start_of_query]; *\/ */
+    /* /\* Get the right amount of memory *\/ */
+    /* char path[start_of_query - start_of_path]; */
+    /* char query[end_of_query - start_of_query]; */
 
-/*     /\* /\\* Copy the strings into our memory *\\/ *\/ */
-/*     /\* strncpy(path, start_of_path,  start_of_query - start_of_path); *\/ */
-/*     /\* strncpy(query, start_of_query, end_of_query - start_of_query); *\/ */
+    /* /\* Copy the strings into our memory *\/ */
+    /* strncpy(path, start_of_path,  start_of_query - start_of_path); */
+    /* strncpy(query, start_of_query, end_of_query - start_of_query); */
 
-/*     /\* /\\* Null terminators (because strncpy does not provide them) *\\/ *\/ */
-/*     /\* path[sizeof(path)] = 0; *\/ */
-/*     /\* query[sizeof(query)] = 0; *\/ */
+    /* /\* Null terminators (because strncpy does not provide them) *\/ */
+    /* path[sizeof(path)] = 0; */
+    /* query[sizeof(query)] = 0; */
 
-/*     /\* /\\*Print *\\/ *\/ */
-/*     /\* printf("%s\n", query); *\/ */
-/*     /\* printf("%s\n", path); *\/ */
+    /* /\*Print *\/ */
+    /* printf("%s\n", query); */
+    /* printf("%s\n", path); */
 
-/* }; */
+};
 
-/* char* readhtml(&ptr) */
-/* { */
+char* readhtml()
+{
+    /* char str[MAXCHAR]; */
+    int n = 1;
+    char *str = (char *) malloc(n);
+    FILE *ptr = fopen("index.html", "r");
+    char ch[1];
 
-/* } */
+    do {
+        n++;
+        ch[0] = fgetc(ptr);
+        str = realloc(str, n);
+        strncat(str, ch, 1);
+    } while (ch[0] != EOF);
+
+    return str;
+}
 
 int main()
 {
@@ -69,8 +80,24 @@ int main()
     /* char server_message[1024] = "GET /index.html HTTP/1.1\nHost: 127.0.0.1:9001\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*\/\*;q=0.8\nAccept-Language: en-GB,en;q=0.5\nAccept\n"; */
 
 
+    char *line1 = "HTTP/1.1 200 OK\n";
+    char *line2 = "Content-Type: text/html\n";
+    char *line3 = "Content-Length: 9000\n";
+
+
 
     /* parse_http(); */
+
+
+    char *str = readhtml();
+
+    /* printf("%s", str); */
+
+
+    strncat(line1, line2, strlen(line2));
+    /* strncat(line1, line3, strlen(line3)); */
+    /* strncat(line1, str, strlen(str)); */
+    /* printf("%s", line1); */
 
 
 
@@ -151,6 +178,7 @@ int main()
     shutdown(server_socket, SHUT_RDWR);
 
 
+    free(str);
     return 0;
 
 
