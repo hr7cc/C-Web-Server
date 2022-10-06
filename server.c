@@ -6,93 +6,31 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#define MAXCHAR 9000
-
-void parse_http()
+char* readhtml(char* page)
 {
-    char str[MAXCHAR];
-    FILE* ptr = fopen("index.html", "r");
-    char ch[1];
-
-    do {
-        ch[0] = fgetc(ptr);
-        strncat(str, ch, 1);
-    } while (ch[0] != EOF);
-
-    printf("%s", str);
-
-
-
-
-    /* if (NULL == ptr) { */
-    /*     printf("file can't be opened \n"); */
-    /* } */
-    /* fgets(str, MAXCHAR, ptr); */
-    /* printf("%s", str); */
-    /* printf("hola"); */
-    fclose(ptr);
-
-    /* /\* Find out where everything is *\/ */
-    /* const char *start_of_path = strchr(request, ' ') + 1; */
-    /* const char *start_of_query = strchr(start_of_path, '?'); */
-    /* const char *end_of_query = strchr(start_of_query, ' '); */
-
-    /* /\* Get the right amount of memory *\/ */
-    /* char path[start_of_query - start_of_path]; */
-    /* char query[end_of_query - start_of_query]; */
-
-    /* /\* Copy the strings into our memory *\/ */
-    /* strncpy(path, start_of_path,  start_of_query - start_of_path); */
-    /* strncpy(query, start_of_query, end_of_query - start_of_query); */
-
-    /* /\* Null terminators (because strncpy does not provide them) *\/ */
-    /* path[sizeof(path)] = 0; */
-    /* query[sizeof(query)] = 0; */
-
-    /* /\*Print *\/ */
-    /* printf("%s\n", query); */
-    /* printf("%s\n", path); */
-
-};
-
-char* readhtml()
-{
-    /* char str[MAXCHAR]; */
     int n = 1;
     char *str = (char *) malloc(n);
-    FILE *ptr = fopen("index.html", "r");
+    FILE *ptr = fopen(page, "r");
     char ch[1];
-
     do {
         n++;
         ch[0] = fgetc(ptr);
         str = realloc(str, n);
         strncat(str, ch, 1);
     } while (ch[0] != EOF);
-
     return str;
 }
 
 int main()
 {
-    char server_message[1024] = "You have reacher the server.";
-    /* char server_message[1024] = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!"; */
-    /* char server_message[1024] = "GET /index.html HTTP/1.1\nHost: 127.0.0.1:9001\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*\/\*;q=0.8\nAccept-Language: en-GB,en;q=0.5\nAccept\n"; */
-
-
     char full_response[1024];
     char line1[] = "HTTP/1.1 200 OK\n";
     char line2[] = "Content-Type: text/html\n";
     char line3[] = "Content-Length: 9000\n";
 
-
-
     /* parse_http(); */
 
-
-    char *str = readhtml();
-
-    /* printf("%s", str); */
+    char *str = readhtml("index.html");
 
     int full_response_length = strlen(line1) + strlen(line2) +strlen(line3) + strlen(str);
 
@@ -100,14 +38,6 @@ int main()
     strcat(full_response, line2);
     strcat(full_response, line3);
     strcat(full_response, str);
-    /* strcat(line1, "hola"); */
-    /* strcat(line1, str); */
-    /* strncat(line1, line3, strlen(line3)); */
-    /* strncat(line1, str, strlen(str)); */
-    /* printf("%s", full_response); */
-    /* printf("%s", line1); */
-
-
 
     // create socket file descriptor, using IPV4, TCP, and IP
     int server_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -160,8 +90,6 @@ int main()
         }
 
         // send message to client
-        /* send(client_socket, server_message, sizeof(server_message), 0); */
-        /* send(client_socket, full_response, sizeof(full_response), 0); */
         send(client_socket, full_response, full_response_length-1, 0);
 
         // recieve message from client
@@ -172,14 +100,6 @@ int main()
         // print message from client
         printf("\n%s\n", server_response);
 
-
-
-
-
-
-
-
-
         // closing the connected socket
         close(client_socket);
     }
@@ -187,9 +107,7 @@ int main()
     // closing the listening socket
     shutdown(server_socket, SHUT_RDWR);
 
-
     free(str);
+
     return 0;
-
-
 }
