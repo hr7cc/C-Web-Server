@@ -80,9 +80,10 @@ int main()
     /* char server_message[1024] = "GET /index.html HTTP/1.1\nHost: 127.0.0.1:9001\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*\/\*;q=0.8\nAccept-Language: en-GB,en;q=0.5\nAccept\n"; */
 
 
-    char *line1 = "HTTP/1.1 200 OK\n";
-    char *line2 = "Content-Type: text/html\n";
-    char *line3 = "Content-Length: 9000\n";
+    char full_response[1024];
+    char line1[] = "HTTP/1.1 200 OK\n";
+    char line2[] = "Content-Type: text/html\n";
+    char line3[] = "Content-Length: 9000\n";
 
 
 
@@ -93,10 +94,17 @@ int main()
 
     /* printf("%s", str); */
 
+    int full_response_length = strlen(line1) + strlen(line2) +strlen(line3) + strlen(str);
 
-    strncat(line1, line2, strlen(line2));
+    strcat(full_response, line1);
+    strcat(full_response, line2);
+    strcat(full_response, line3);
+    strcat(full_response, str);
+    /* strcat(line1, "hola"); */
+    /* strcat(line1, str); */
     /* strncat(line1, line3, strlen(line3)); */
     /* strncat(line1, str, strlen(str)); */
+    /* printf("%s", full_response); */
     /* printf("%s", line1); */
 
 
@@ -152,7 +160,9 @@ int main()
         }
 
         // send message to client
-        send(client_socket, server_message, sizeof(server_message), 0);
+        /* send(client_socket, server_message, sizeof(server_message), 0); */
+        /* send(client_socket, full_response, sizeof(full_response), 0); */
+        send(client_socket, full_response, full_response_length-1, 0);
 
         // recieve message from client
         char server_response[1024];
