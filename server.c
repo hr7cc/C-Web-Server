@@ -41,7 +41,7 @@ int main()
 
     // create socket file descriptor, using IPV4, TCP, and IP
     int server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket == -1)
+    if (server_socket < 0)
     {
         perror("Failed to create socket file descriptor");
         exit(EXIT_FAILURE);
@@ -50,7 +50,7 @@ int main()
     // set socket options (helps reuse of address and port)
     int opt = 1;
     int set_options = setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt));
-    if (set_options == -1)
+    if (set_options < 0)
     {
         perror("Failed to set socket options");
         exit(EXIT_FAILURE);
@@ -64,7 +64,7 @@ int main()
 
     // bind socket to server address
     int bind_socket = bind(server_socket, (struct sockaddr*) &server_address, sizeof(server_address));
-    if (bind_socket == -1)
+    if (bind_socket < 0)
     {
         perror("Failed to bind socket to server address");
         exit(EXIT_FAILURE);
@@ -73,7 +73,7 @@ int main()
 
     // listen client to approach the server to make a connection
     int listen_success = listen(server_socket, 9);
-    if (listen_success == -1)
+    if (listen_success < 0)
     {
         perror("Error listening for connection");
         exit(EXIT_FAILURE);
@@ -83,7 +83,7 @@ int main()
     {
         // accept connection
         int client_socket = accept(server_socket, NULL, NULL);
-        if (client_socket == -1)
+        if (client_socket < 0)
         {
             perror("Error accepting connection");
             exit(EXIT_FAILURE);
