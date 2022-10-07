@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1 id="title">Title</h1>
+
+    <p id="description">Explanation</p>
+
+    <form id="survey-form">
+        <label id="name-label">Name:
+            <input id="name" type="text" required id="name-label" placeholder="John Smith" />
+        </label>
+        <label id="email-label">Email:
+            <input id="email" type="email" required id="email-label" placeholder="jsmith@email.com" />
+        </label>
+        <label id="number-label">Number:
+            <input id="number" type="number" min=10 max=100 required id="number-label" / placeholder=15>
+        </label>
+        <select id="dropdown">
+            <option value="one">One</option>
+            <option value="two">Two</option>
+        </select>
+        <label id="yes-no">Yes or No:
+            <input type="radio" name="yes_no" id="yes-no" value="yes"/>
+            <input type="radio" name="yes_no" id="yes-no" value="no"/>
+        </label>
+
+        <input type="checkbox" name="checkboxes" value="dog" />
+        <input type="checkbox" name="checkboxes" value="cat" />
+        <input type="checkbox" name="checkboxes" value="mouse" />
+        <input type="checkbox" name="checkboxes" value="rabbit" />
+
+        <textarea>id="other-text" name="text"</textarea>
+        <input type="submit" id="submit" />
+    </form>
+</body>
+
+
+
+</html>
